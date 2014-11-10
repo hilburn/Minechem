@@ -30,6 +30,7 @@ import minechem.utils.MinechemFuelHandler;
 import minechem.utils.MinechemUtil;
 import minechem.utils.Recipe;
 import minetweaker.MineTweakerAPI;
+import net.minecraft.block.BlockObsidian;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;

@@ -48,8 +48,11 @@ repositories {
 dependencies {    
     compile group: 'codechicken', name: 'NotEnoughItems', version: "${config.version.minecraft}-${config.version.nei}", ext: 'jar', classifier: "dev"
     compile group: 'codechicken', name: 'CodeChickenCore', version: "${config.version.minecraft}-${config.version.cccore}", ext: 'jar', classifier: "dev"
+<<<<<<< HEAD
     compile group: 'codechicken', name: 'CodeChickenLib', version: "${config.version.minecraft}-${config.version.cclib}", ext: 'jar', classifier: "dev"
 	compile fileTree(dir: 'lib', include: '*.jar')
+=======
+>>>>>>> origin/master
 }
 
 group = "minechem"
@@ -68,7 +71,11 @@ minecraft {
     }
     else
     {
+<<<<<<< HEAD
         replace "@BUILD@", "ManuallyBuilt"
+=======
+	replace "@BUILD@", "ManuallyBuilt"
+>>>>>>> origin/master
     }
 }
 
@@ -78,10 +85,19 @@ processResources {
 
 allprojects {
     version = "${config.version.minecraft}-${config.version.mod.major}.${config.version.mod.minor}.${config.version.mod.revis}"
+<<<<<<< HEAD
     
     if (System.getenv("BUILD_NUMBER") != null) {
         version += ".${System.getenv("BUILD_NUMBER")}"
     } else {
+=======
+    
+    if (System.getenv("BUILD_NUMBER") != null){
+        version += ".${System.getenv("BUILD_NUMBER")}"
+    
+    }
+    else {
+>>>>>>> origin/master
         version += "-ManuallyBuilt"
     }
     
