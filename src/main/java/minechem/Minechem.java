@@ -67,6 +67,8 @@ public class Minechem
         LogHelper.debug("Setting up ModMetaData");
         metadata = Compendium.MetaData.init(metadata);
 
+        JournalRegistry.init();
+
         // Register Elements and Molecules before constructing items
         LogHelper.debug("Registering Elements...");
         ElementHandler.init();
@@ -90,8 +92,6 @@ public class Minechem
         // Register Event Handlers
         LogHelper.debug("Registering Event Handlers...");
         proxy.registerEventHandlers();
-
-        JournalRegistry.init();
     }
 
     @EventHandler

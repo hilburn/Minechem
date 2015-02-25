@@ -15,6 +15,12 @@ public class JournalHeader extends JournalElement
         titleKey = "journal" + (pageKey.isEmpty() ? "" : "." + pageKey) + ".title";
     }
 
+    public JournalHeader(String pageKey, String title)
+    {
+        super(pageKey);
+        titleKey = title;
+    }
+
     @Override
     public Element getElement(EntityPlayer player)
     {

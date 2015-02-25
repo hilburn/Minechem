@@ -243,6 +243,8 @@ public class Compendium
         {
             private static final String prefix = "textures/gui/";
 
+            public static final String moleculeImagesPrefix = prefix + "compounds/";
+
             public static final String blankMachine = Compendium.Texture.GUI.prefix + "blankMachine.png";
             public static final String journal = Compendium.Texture.GUI.prefix + "journal.png";
             public static final String opticalMicroscope = Compendium.Texture.GUI.prefix + "opticalMicroscope.png";

@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,11 +16,21 @@ import minechem.Config;
 import minechem.helper.ColourHelper;
 import minechem.helper.FileHelper;
 import minechem.helper.LogHelper;
+import minechem.item.journal.pages.EntryPage;
+import minechem.item.journal.pages.elements.IJournalElement;
+import minechem.item.journal.pages.elements.JournalHeader;
+import minechem.item.journal.pages.elements.JournalImage;
+import minechem.item.journal.pages.elements.JournalText;
+import minechem.registry.JournalRegistry;
 import minechem.registry.MoleculeRegistry;
+import net.afterlifelochie.fontbox.document.property.AlignmentMode;
+import net.afterlifelochie.fontbox.document.property.FloatMode;
 import org.apache.logging.log4j.Level;
 
 public class MoleculeHandler
 {
+    static String moleculeChapter = "chemicals.compounds";
+
     public static void init()
     {
         String[] fileDestSource = new String[2];
@@ -50,7 +61,7 @@ public class MoleculeHandler
 
         //saveJson(object);
 
-        LogHelper.info("Total of " + MoleculeRegistry.getInstance().getMolecules().size() + " molecules registered");
+        LogHelper.info("Total of " + MoleculeRegistry.getInstance().getMolecules().size() + " moleculeChapter registered");
     }
 
     public static void saveJson(JsonObject object)
@@ -99,15 +110,11 @@ public class MoleculeHandler
                     if (cInput.isString()) colour = ColourHelper.RGB(cInput.getAsString());
                     else if (cInput.isNumber()) colour = cInput.getAsInt();
                 }
-                if (MoleculeRegistry.getInstance().registerMolecule(
-                        moleculeEntry.getKey(),
-                        form,
-                        colour,
-                        elementObject.get("Formula").getAsString()))
+                if (MoleculeRegistry.getInstance().registerMolecule(moleculeEntry.getKey(), form, colour, elementObject.get("Formula").getAsString()))
                 {
                     unparsed.put(moleculeEntry.getKey(), moleculeEntry.getValue());
-                }
-                else{
+                } else
+                {
 //                    if (elementObject.has("SMILES") && !elementObject.has("Height"))
 //                    {
 //                        int[] result = MoleculeImageParser.parser(moleculeEntry.getKey(), elementObject.get("SMILES").getAsString());
@@ -117,6 +124,22 @@ public class MoleculeHandler
 //                            elementObject.add("Width",new JsonPrimitive(result[1]));
 //                        }
 //                    }
+                    ArrayList<IJournalElement> elements = new ArrayList<IJournalElement>();
+                    String pictureName = moleculeEntry.getKey().toLowerCase().replaceAll("\\s","_");
+                    String pageKey = moleculeChapter + "." + pictureName;
+                    elements.add(new JournalHeader(pageKey, moleculeEntry.getKey()));
+                    if (elementObject.has("TextKey"))
+                    {
+                        elements.add(new JournalText(pageKey, elementObject.get("TextKey").getAsString()));
+                    }
+                    if (elementObject.has("Height") && elementObject.has("Width"))
+                    {
+                        elements.add(new JournalImage(pageKey, Compendium.Texture.GUI.moleculeImagesPrefix + pictureName, elementObject.get("Height").getAsInt(), elementObject.get("Width").getAsInt(), AlignmentMode.CENTER, FloatMode.LEFT));
+                    }
+                    if (elements.size()>1)
+                    {
+                        JournalRegistry.addPage(moleculeChapter, new EntryPage(pictureName, moleculeChapter, elements.toArray(new IJournalElement[elements.size()])));
+                    }
                 }
             }
             readFromObject(unparsed.entrySet(), run+1);
